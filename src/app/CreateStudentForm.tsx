@@ -63,29 +63,41 @@ const CreateStudentForm = () => {
             <Row className={formPadding}>
               <Form.Group controlId="formBio">
                 <Form.Label>Biographical Statement</Form.Label>
-                <Form.Control as="textarea" placeholder="A bit about you" />
+                <Form.Control
+                  as="textarea"
+                  placeholder="A bit about you"
+                  {...register("bio")}
+                />
                 <Form.Text muted>(optional)</Form.Text>
               </Form.Group>
             </Row>
             <Row className={formPadding}>
               <Col>
                 <Form.Group controlId="formLevel">
-                  <Form.Label>Level</Form.Label>
-                  <Form.Select>
+                  <Form.Label>
+                    Level <Form.Text style={{ color: "red" }}>*</Form.Text>
+                  </Form.Label>
+                  <Form.Select
+                    {...register("level")}
+                    className={`form-control ${errors.level ? "is-invalid" : ""}`}
+                  >
                     {levelKeys.map((level) => (
                       <option key={level} value={level}>
                         {level}
                       </option>
                     ))}
                   </Form.Select>
-                  <Form.Text style={{ color: "red" }}>
-                    What is your level? (required)
-                  </Form.Text>
+                  <div className="invalid-feedback">
+                    {errors.level?.message}
+                  </div>
+                  <Form.Text muted>What is your level?</Form.Text>
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group controlId="formGPA">
-                  <Form.Label>GPA</Form.Label>
+                  <Form.Label>
+                    GPA <Form.Text style={{ color: "red" }}>*</Form.Text>
+                  </Form.Label>
                   <Form.Select>
                     {gpaValues.map((gpa, index) => (
                       <option key={gpa} value={index}>
@@ -93,9 +105,7 @@ const CreateStudentForm = () => {
                       </option>
                     ))}
                   </Form.Select>
-                  <Form.Text style={{ color: "red" }}>
-                    Select one (required)
-                  </Form.Text>
+                  <Form.Text>Select one</Form.Text>
                 </Form.Group>
               </Col>
               <Col>
@@ -117,15 +127,14 @@ const CreateStudentForm = () => {
                     id={hobby}
                   />
                 ))}
-                <Form.Text className="text-muted">
-                  {" "}
-                  Select hobbies (optional)
-                </Form.Text>
+                <Form.Text className="text-muted"> Select hobbies</Form.Text>
               </Form.Group>
             </Row>
             <Row className={formPadding}>
               <Form.Group controlId="formMajor">
-                <Form.Label>Major&nbsp;&nbsp;</Form.Label>
+                <Form.Label>
+                  Major <Form.Text style={{ color: "red" }}>*</Form.Text>&nbsp;
+                </Form.Label>
                 {majorKeys.map((major) => (
                   <Form.Check
                     key={major}
@@ -136,9 +145,7 @@ const CreateStudentForm = () => {
                     id={major}
                   />
                 ))}
-                <Form.Text style={{ color: "red" }}>
-                  What is your major? (required)
-                </Form.Text>
+                <Form.Text>What is your major?</Form.Text>
               </Form.Group>
             </Row>
             <Button variant="primary" type="submit">
