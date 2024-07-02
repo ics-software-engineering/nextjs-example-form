@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.6.0",
     "bootstrap": "^5.3.3",
     "next": "14.2.4",
     "react": "^18",
     "react-bootstrap": "^2.10.4",
     "react-bootstrap-icons": "^1.11.4",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.52.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -22,6 +25,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
+    "prisma": "^5.16.1",
     "typescript": "^5"
   }
 }
