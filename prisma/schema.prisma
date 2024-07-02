@@ -15,7 +15,7 @@ datasource db {
 
 model EnrollmentData {
   id       Int      @id @default(autoincrement())
-  email    String
+  email    String   @unique
   enrolled DateTime
 }
 
@@ -43,7 +43,7 @@ enum Major {
 model StudentData {
   id      Int     @id @default(autoincrement())
   name    String
-  email   String
+  email   String  @unique
   bio     String?
   hobbies Hobby[]
   level   Level
