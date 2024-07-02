@@ -3,13 +3,25 @@
 import { useState } from "react";
 import { Hobby, Level, Major } from "@prisma/client";
 import { Form, Button, Col, Container, Card, Row } from "react-bootstrap";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import swal from "sweetalert";
+import { CreateStudentSchema, gpaValues } from "@/lib/validationSchemas";
 
 const CreateStudentForm = () => {
   const formPadding = "py-1";
   const levelKeys = Object.keys(Level).filter((key) => isNaN(Number(key)));
   const hobbyKeys = Object.keys(Hobby).filter((key) => isNaN(Number(key)));
   const majorKeys = Object.keys(Major).filter((key) => isNaN(Number(key)));
-  const gpaValues = ["0.0-0.9", "1.0-1.9", "2.0-2.9", "3.0-3.9", "4.0+"];
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(CreateStudentSchema),
+  });
 
   return (
     <Container>
@@ -19,14 +31,32 @@ const CreateStudentForm = () => {
             <Row className={formPadding}>
               <Col>
                 <Form.Group controlId="formName">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control type="text" placeholder="Your name" />
+                  <Form.Label>
+                    Name <Form.Text style={{ color: "red" }}>*</Form.Text>
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Your name"
+                    {...register("name")}
+                    className={`form-control ${errors.name ? "is-invalid" : ""}`}
+                  />
+                  <div className="invalid-feedback">{errors.name?.message}</div>
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group controlId="formEmail">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" placeholder="Your email" />
+                  <Form.Label>
+                    Email <Form.Text style={{ color: "red" }}>*</Form.Text>
+                  </Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Your email"
+                    {...register("email")}
+                    className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.email?.message}
+                  </div>
                 </Form.Group>
               </Col>
             </Row>
@@ -34,6 +64,7 @@ const CreateStudentForm = () => {
               <Form.Group controlId="formBio">
                 <Form.Label>Biographical Statement</Form.Label>
                 <Form.Control as="textarea" placeholder="A bit about you" />
+                <Form.Text muted>(optional)</Form.Text>
               </Form.Group>
             </Row>
             <Row className={formPadding}>
