@@ -12,3 +12,41 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model EnrollmentData {
+  id       Int      @id @default(autoincrement())
+  email    String
+  enrolled DateTime
+}
+
+enum Hobby {
+  Surfing
+  Running
+  Biking
+  Paddling
+}
+
+enum Level {
+  Freshman
+  Sophomore
+  Junior
+  Senior
+}
+
+enum Major {
+  Physics
+  Math
+  Chemistry
+  ComputerScience
+}
+
+model StudentData {
+  id      Int     @id @default(autoincrement())
+  name    String
+  email   String
+  bio     String?
+  hobbies Hobby[]
+  level   Level
+  gpa     Int
+  major   Major
+}
