@@ -3,10 +3,14 @@
 import { useState } from "react";
 import { Hobby, Level, Major } from "@prisma/client";
 import { Form, Button, Col, Container, Card, Row } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import swal from "sweetalert";
-import { CreateStudentSchema, gpaValues } from "@/lib/validationSchemas";
+import {
+  CreateStudentSchema,
+  gpaValues,
+  ICreateStudentForm,
+} from "@/lib/validationSchemas";
 
 const CreateStudentForm = () => {
   const formPadding = "py-1";
@@ -23,11 +27,14 @@ const CreateStudentForm = () => {
     resolver: yupResolver(CreateStudentSchema),
   });
 
+  const onSubmit: SubmitHandler<ICreateStudentForm> = (data) =>
+    console.log(data);
+
   return (
     <Container>
       <Card>
         <Card.Body>
-          <Form>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className={formPadding}>
               <Col>
                 <Form.Group controlId="formName">
@@ -125,6 +132,7 @@ const CreateStudentForm = () => {
                     type="checkbox"
                     label={hobby}
                     id={hobby}
+                    {...register("hobbies")}
                   />
                 ))}
                 <Form.Text className="text-muted"> Select hobbies</Form.Text>
@@ -140,9 +148,9 @@ const CreateStudentForm = () => {
                     key={major}
                     inline
                     type="radio"
-                    name="major"
                     label={major}
                     id={major}
+                    {...register("major")}
                   />
                 ))}
                 <Form.Text>What is your major?</Form.Text>

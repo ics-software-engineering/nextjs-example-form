@@ -4,6 +4,17 @@ export const gpaValues = ["0.0-0.9", "1.0-1.9", "2.0-2.9", "3.0-3.9", "4.0+"];
 export const gpa2String = (num: number) => gpaValues[num];
 export const gpa2Number = (str: string) => gpaValues.indexOf(str);
 
+export interface ICreateStudentForm {
+  bio?: string | undefined;
+  enrolled?: Date | undefined;
+  hobbies?: (string | undefined)[] | undefined;
+  name: string;
+  email: string;
+  level: string;
+  gpa: number;
+  major: string;
+}
+
 export const CreateStudentSchema = Yup.object().shape({
   name: Yup.string().required(),
   email: Yup.string().email().required(),
