@@ -11,9 +11,9 @@ export const gpa2String = (num: number) => gpaValues[num];
 export const gpa2Number = (str: string) => gpaValues.indexOf(str);
 
 export interface ICreateStudentForm {
-  bio?: string | undefined;
-  enrolled?: Date | undefined;
-  hobbies?: (string | undefined)[] | undefined;
+  bio: string | null;
+  enrolled?: Date | undefined | null;
+  hobbies?: (string | undefined | null)[] | undefined;
   name: string;
   email: string;
   level: string;
@@ -22,6 +22,17 @@ export interface ICreateStudentForm {
 }
 
 export const CreateStudentSchema = Yup.object().shape({
+  name: Yup.string().required(),
+  email: Yup.string().email().required(),
+  bio: Yup.string().optional(),
+  level: Yup.string().required(),
+  gpa: Yup.number().required(),
+  enrolled: Yup.date().required(),
+  hobbies: Yup.array().of(Yup.string()),
+  major: Yup.string().oneOf(majorKeys),
+});
+
+export const EditStudentSchema = Yup.object().shape({
   name: Yup.string().required(),
   email: Yup.string().email().required(),
   bio: Yup.string(),

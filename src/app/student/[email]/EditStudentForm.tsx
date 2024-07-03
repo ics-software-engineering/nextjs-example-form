@@ -1,40 +1,28 @@
 "use client";
 
-import { useState } from "react";
 import {
-  StudentData,
-  EnrollmentData,
-  Hobby,
-  Major,
-  Level,
-} from "@prisma/client";
+  ICreateStudentForm,
+  EditStudentSchema,
+  hobbyKeys,
+  levelKeys,
+  majorKeys,
+  gpaValues,
+} from "@/lib/validationSchemas";
 import {
-  Form,
-  Alert,
   Button,
+  ButtonGroup,
+  Card,
   Col,
   Container,
-  Card,
-  ButtonGroup,
+  Form,
   Row,
 } from "react-bootstrap";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Multiselect from "multiselect-react-dropdown";
-import { upsertStudent } from "@/lib/dbActions";
-import swal from "sweetalert";
-import {
-  CreateStudentSchema,
-  hobbyKeys,
-  levelKeys,
-  majorKeys,
-  gpaValues,
-  ICreateStudentForm,
-} from "@/lib/validationSchemas";
 
-const CreateStudentForm = () => {
+const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
   const formPadding = "py-1";
-  const [emailState, setEmailState] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -42,12 +30,12 @@ const CreateStudentForm = () => {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(CreateStudentSchema),
+    resolver: yupResolver(EditStudentSchema),
   });
 
   const onSubmit = async (data: {
     email: string;
-    bio?: string | undefined;
+    bio?: string;
     level: string;
     gpa: number;
     major?: string | undefined;
@@ -56,16 +44,6 @@ const CreateStudentForm = () => {
     enrolled?: Date | undefined;
   }) => {
     console.log(data);
-
-    const result = await upsertStudent(data as ICreateStudentForm);
-    console.log(result);
-    if (result) {
-      swal("Success!", "Student data saved successfully!", "success");
-      reset();
-      setEmailState(data.email);
-    } else {
-      swal("Error!", "Failed to save student data!", "error");
-    }
   };
 
   return (
@@ -73,6 +51,7 @@ const CreateStudentForm = () => {
       <Card>
         <Card.Body>
           <Form onSubmit={handleSubmit(onSubmit)}>
+            <input type="hidden" value={student.email} {...register("email")} />
             <Row className={formPadding}>
               <Col>
                 <Form.Group controlId="formName">
@@ -81,7 +60,7 @@ const CreateStudentForm = () => {
                   </Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Your name"
+                    defaultValue={student.name}
                     {...register("name")}
                     className={`form-control ${errors.name ? "is-invalid" : ""}`}
                   />
@@ -93,15 +72,7 @@ const CreateStudentForm = () => {
                   <Form.Label>
                     Email <Form.Text style={{ color: "red" }}>*</Form.Text>
                   </Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Your email"
-                    {...register("email")}
-                    className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.email?.message}
-                  </div>
+                  <Form.Control type="email" value={student.email} disabled />
                 </Form.Group>
               </Col>
             </Row>
@@ -110,7 +81,7 @@ const CreateStudentForm = () => {
                 <Form.Label>Biographical Statement</Form.Label>
                 <Form.Control
                   as="textarea"
-                  placeholder="A bit about you"
+                  defaultValue={student.bio ? student.bio : ""}
                   {...register("bio")}
                 />
                 <Form.Text muted>(optional)</Form.Text>
@@ -127,7 +98,11 @@ const CreateStudentForm = () => {
                     className={`form-control ${errors.level ? "is-invalid" : ""}`}
                   >
                     {levelKeys.map((level) => (
-                      <option key={level} value={level}>
+                      <option
+                        key={level}
+                        value={level}
+                        selected={student.level === level}
+                      >
                         {level}
                       </option>
                     ))}
@@ -145,7 +120,11 @@ const CreateStudentForm = () => {
                   </Form.Label>
                   <Form.Select {...register("gpa")}>
                     {gpaValues.map((gpa, index) => (
-                      <option key={gpa} value={index}>
+                      <option
+                        key={gpa}
+                        value={index}
+                        selected={student.gpa === index}
+                      >
                         {gpa}
                       </option>
                     ))}
@@ -162,6 +141,7 @@ const CreateStudentForm = () => {
                   </Form.Label>
                   <Form.Control
                     type="date"
+                    value={student.enrolled!.toISOString().split("T")[0]}
                     {...register("enrolled")}
                     className={`form-control ${errors.enrolled ? "is-invalid" : ""}`}
                   />
@@ -186,7 +166,7 @@ const CreateStudentForm = () => {
                       closeOnSelect={false}
                       onSelect={onChange}
                       onRemove={onChange}
-                      selectedValues={value}
+                      selectedValues={student.hobbies}
                     />
                   )}
                 />
@@ -209,6 +189,7 @@ const CreateStudentForm = () => {
                       label={major}
                       id={major}
                       value={major}
+                      checked={student.major === major}
                       {...register("major")}
                     />
                   ))}
@@ -218,21 +199,13 @@ const CreateStudentForm = () => {
               </Form.Group>
             </Row>
             <Button variant="primary" type="submit">
-              Submit
+              Update
             </Button>
           </Form>
         </Card.Body>
-        {emailState ? (
-          <Alert variant="success">
-            Student data saved successfully! Email: {emailState}
-            <a href={`/student/${emailState}`}>Edit this data.</a>
-          </Alert>
-        ) : (
-          ""
-        )}
       </Card>
     </Container>
   );
 };
 
-export default CreateStudentForm;
+export default EditStudentForm;
