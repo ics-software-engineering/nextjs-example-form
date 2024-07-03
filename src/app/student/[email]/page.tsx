@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { StudentData, EnrollmentData } from "@prisma/client";
-import EditStudentForm from "./EditStudentForm";
+import EditStudentForm from "../../../components/EditStudentForm";
 
 const EditStudentPage = async ({ params }: { params: { email: string } }) => {
   console.log(`EditStudentPage: ${params.email}`);
