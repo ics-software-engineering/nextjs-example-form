@@ -31,7 +31,7 @@ const EditStudentForm = ({
   student: ICreateStudentForm;
   reload: () => void;
 }) => {
-  console.log("EditStudentForm: ", student.email); // Show client-side email.
+  console.log("EditStudentForm: ", student.email, student); // Show client-side email.
 
   const formPadding = "py-1";
   const {
@@ -46,6 +46,7 @@ const EditStudentForm = ({
   });
 
   const watchMajor = watch("major", student.major);
+  console.log("EditStudentForm.watchMajor: ", watchMajor, student.major); // Show client-side major.
 
   const onSubmit = async (data: {
     email: string;
@@ -64,7 +65,8 @@ const EditStudentForm = ({
     } else {
       swal("Error!", "Failed to save student data!", "error");
     }
-    reload();
+    await reload();
+    reset();
   };
 
   return (
@@ -115,6 +117,7 @@ const EditStudentForm = ({
                     Level <Form.Text style={{ color: "red" }}>*</Form.Text>
                   </Form.Label>
                   <Form.Select
+                    defaultValue={student.level}
                     {...register("level")}
                     className={`form-control ${errors.level ? "is-invalid" : ""}`}
                   >
@@ -122,7 +125,7 @@ const EditStudentForm = ({
                       <option
                         key={level}
                         value={level}
-                        selected={student.level === level}
+                        // selected={student.level === level}
                       >
                         {level}
                       </option>
@@ -139,12 +142,12 @@ const EditStudentForm = ({
                   <Form.Label>
                     GPA <Form.Text style={{ color: "red" }}>*</Form.Text>
                   </Form.Label>
-                  <Form.Select {...register("gpa")}>
+                  <Form.Select {...register("gpa")} defaultValue={student.gpa}>
                     {gpaValues.map((gpa, index) => (
                       <option
                         key={gpa}
                         value={index}
-                        selected={student.gpa === index}
+                        // selected={student.gpa === index}
                       >
                         {gpa}
                       </option>
@@ -162,7 +165,7 @@ const EditStudentForm = ({
                   </Form.Label>
                   <Form.Control
                     type="date"
-                    value={student.enrolled!.toISOString().split("T")[0]}
+                    defaultValue={student.enrolled!.toISOString().split("T")[0]}
                     {...register("enrolled")}
                     className={`form-control ${errors.enrolled ? "is-invalid" : ""}`}
                   />

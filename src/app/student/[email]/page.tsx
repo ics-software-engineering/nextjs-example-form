@@ -5,7 +5,7 @@ import EditStudentForm from "../../../components/EditStudentForm";
 
 const EditStudentPage = async ({ params }: { params: { email: string } }) => {
   const email = decodeURIComponent(params.email); // CAM: this is important
-  console.log("EditStudentPage: ", email); // Show server-side email.
+
   const studentData = await prisma.studentData.findUnique({
     where: { email: email },
   });
@@ -16,9 +16,11 @@ const EditStudentPage = async ({ params }: { params: { email: string } }) => {
     throw notFound();
   }
   const student = { ...studentData, ...enrollmentData };
+  console.log("EditStudentPage: ", email, student); // Show server-side email.
 
   const reload = async () => {
     "use server"; // CAM: this function must be server-side and async to pass it to the form
+    console.log("EditStudentPage.reload: ", student.email); // Show server-side email.
     redirect(`/student/${student.email}`); // redirect is a server-side function
   };
 
