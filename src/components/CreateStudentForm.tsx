@@ -55,10 +55,8 @@ const CreateStudentForm = () => {
     hobbies?: (string | undefined)[] | undefined;
     enrolled?: Date | undefined;
   }) => {
-    console.log(data);
 
     const result = await upsertStudent(data as ICreateStudentForm);
-    console.log(result);
     if (result) {
       swal("Success!", "Student data saved successfully!", "success");
       reset();

@@ -4,9 +4,8 @@ import { StudentData, EnrollmentData } from "@prisma/client";
 import EditStudentForm from "../../../components/EditStudentForm";
 
 const EditStudentPage = async ({ params }: { params: { email: string } }) => {
-  console.log(`EditStudentPage: ${params.email}`);
-  const email = decodeURIComponent(params.email);
-  console.log(params.email, email);
+  const email = decodeURIComponent(params.email); // CAM: this is important
+  console.log("EditStudentPage: ", email); // Show server-side email.
   const studentData = await prisma.studentData.findUnique({
     where: { email: email },
   });
@@ -18,12 +17,12 @@ const EditStudentPage = async ({ params }: { params: { email: string } }) => {
   }
   const student = { ...studentData, ...enrollmentData };
 
-  async function reload() {
-    "use server";
-    redirect(`/student/${student.email}`);
-  }
+  const reload = async () => {
+    "use server"; // CAM: this function must be server-side and async to pass it to the form
+    redirect(`/student/${student.email}`); // redirect is a server-side function
+  };
+
   if (!student.bio) student.bio = "";
-  console.log("email page", student);
   return (
     <main>
       <h1 className="text-center">Edit Student</h1>

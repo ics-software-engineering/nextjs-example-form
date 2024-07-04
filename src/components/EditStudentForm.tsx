@@ -31,7 +31,7 @@ const EditStudentForm = ({
   student: ICreateStudentForm;
   reload: () => void;
 }) => {
-  console.log("EditStudentForm: ", student);
+  console.log("EditStudentForm: ", student.email); // Show client-side email.
 
   const formPadding = "py-1";
   const {
@@ -47,8 +47,6 @@ const EditStudentForm = ({
 
   const watchMajor = watch("major", student.major);
 
-  console.log(watchMajor);
-
   const onSubmit = async (data: {
     email: string;
     bio?: string;
@@ -59,9 +57,7 @@ const EditStudentForm = ({
     hobbies?: (string | undefined)[] | undefined;
     enrolled?: Date | undefined;
   }) => {
-    console.log(data);
     const result = await upsertStudent(data as ICreateStudentForm);
-    console.log(result);
     if (result) {
       swal("Success!", "Student data saved successfully!", "success");
       reset();
