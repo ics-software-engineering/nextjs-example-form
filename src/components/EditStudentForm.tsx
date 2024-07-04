@@ -33,8 +33,6 @@ const EditStudentForm = ({
 }) => {
   console.log("EditStudentForm: ", student);
 
-  const [majorState, setMajorState] = useState(student.major);
-
   const formPadding = "py-1";
   const {
     register,
