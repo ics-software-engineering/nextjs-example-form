@@ -17,11 +17,16 @@ import {
   Form,
   Row,
 } from "react-bootstrap";
+import { redirect } from "next/navigation";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Multiselect from "multiselect-react-dropdown";
+import { upsertStudent } from "@/lib/dbActions";
+import swal from "sweetalert";
 
 const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
+  console.log("EditStudentForm: ", student);
   const formPadding = "py-1";
   const {
     register,
@@ -32,6 +37,28 @@ const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
   } = useForm({
     resolver: yupResolver(EditStudentSchema),
   });
+
+  const [updatedStudent, setUpdatedStudent] = useState(false);
+
+  useEffect(() => {
+    console.log(
+      `useEffect: ${updatedStudent} ${student.email} ${student.name}`,
+    );
+    if (updatedStudent) {
+      setUpdatedStudent(false);
+      redirect(`/student/${student.email}`);
+    }
+  }, [
+    updatedStudent,
+    student.email,
+    student.name,
+    student.bio,
+    student.level,
+    student.gpa,
+    student.major,
+    student.hobbies,
+    student.enrolled,
+  ]);
 
   const onSubmit = async (data: {
     email: string;
@@ -44,6 +71,15 @@ const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
     enrolled?: Date | undefined;
   }) => {
     console.log(data);
+    const result = await upsertStudent(data as ICreateStudentForm);
+    console.log(result);
+    if (result) {
+      swal("Success!", "Student data saved successfully!", "success");
+      setUpdatedStudent(true);
+      reset();
+    } else {
+      swal("Error!", "Failed to save student data!", "error");
+    }
   };
 
   return (

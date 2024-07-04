@@ -13,13 +13,12 @@ const EditStudentPage = async ({ params }: { params: { email: string } }) => {
   const enrollmentData = await prisma.enrollmentData.findUnique({
     where: { email: email },
   });
-  console.log(studentData, enrollmentData);
   if (!studentData || !enrollmentData) {
     throw notFound();
   }
   const student = { ...studentData, ...enrollmentData };
   if (!student.bio) student.bio = "";
-  console.log(student);
+  console.log("email page", student);
   return (
     <main>
       <h1 className="text-center">Edit Student</h1>
