@@ -17,16 +17,24 @@ import {
   Form,
   Row,
 } from "react-bootstrap";
-import { redirect } from "next/navigation";
-import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Multiselect from "multiselect-react-dropdown";
 import { upsertStudent } from "@/lib/dbActions";
 import swal from "sweetalert";
 
-const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
+const EditStudentForm = ({
+  student,
+  reload,
+}: {
+  student: ICreateStudentForm;
+  reload: () => void;
+}) => {
   console.log("EditStudentForm: ", student);
+
+  const [majorState, setMajorState] = useState(student.major);
+
   const formPadding = "py-1";
   const {
     register,
@@ -34,31 +42,14 @@ const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
     control,
     reset,
     formState: { errors },
+    watch,
   } = useForm({
     resolver: yupResolver(EditStudentSchema),
   });
 
-  const [updatedStudent, setUpdatedStudent] = useState(false);
+  const watchMajor = watch("major", student.major);
 
-  useEffect(() => {
-    console.log(
-      `useEffect: ${updatedStudent} ${student.email} ${student.name}`,
-    );
-    if (updatedStudent) {
-      setUpdatedStudent(false);
-      redirect(`/student/${student.email}`);
-    }
-  }, [
-    updatedStudent,
-    student.email,
-    student.name,
-    student.bio,
-    student.level,
-    student.gpa,
-    student.major,
-    student.hobbies,
-    student.enrolled,
-  ]);
+  console.log(watchMajor);
 
   const onSubmit = async (data: {
     email: string;
@@ -75,11 +66,11 @@ const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
     console.log(result);
     if (result) {
       swal("Success!", "Student data saved successfully!", "success");
-      setUpdatedStudent(true);
       reset();
     } else {
       swal("Error!", "Failed to save student data!", "error");
     }
+    reload();
   };
 
   return (
@@ -224,8 +215,8 @@ const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
                       type="radio"
                       label={major}
                       id={major}
-                      value={major}
-                      checked={student.major === major}
+                      defaultValue={major}
+                      checked={watchMajor === major}
                       {...register("major")}
                     />
                   ))}
