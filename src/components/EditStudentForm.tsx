@@ -17,12 +17,13 @@ import {
   Form,
   Row,
 } from "react-bootstrap";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useFormContext, useWatch } from "react-hook-form";
 import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Multiselect from "multiselect-react-dropdown";
 import { upsertStudent } from "@/lib/dbActions";
 import swal from "sweetalert";
+import { useRouter } from "next/navigation";
 
 const EditStudentForm = ({
   student,
@@ -32,20 +33,51 @@ const EditStudentForm = ({
   reload: () => void;
 }) => {
   console.log("EditStudentForm: ", student.email, student); // Show client-side email.
-
+  const router = useRouter();
   const formPadding = "py-1";
+  let enrolled = new Date();
+  if (student.enrolled) {
+    enrolled = new Date();
+  } else if (typeof student.enrolled === "string") {
+    enrolled = new Date(student.enrolled);
+  }
+  let hobbies: string[] = [];
+  if (student.hobbies) {
+    hobbies = student.hobbies as string[];
+  }
+
   const {
     register,
     handleSubmit,
     control,
     reset,
-    formState: { errors },
+    formState: {
+      errors,
+      isDirty,
+      dirtyFields,
+      isSubmitting,
+      isValid,
+      submitCount,
+      touchedFields,
+    },
     watch,
   } = useForm({
     resolver: yupResolver(EditStudentSchema),
+    defaultValues: {
+      email: student.email,
+      bio: student.bio,
+      level: student.level,
+      gpa: student.gpa,
+      major: student.major,
+      name: student.name,
+      hobbies: hobbies,
+      enrolled: enrolled,
+    },
   });
 
   const watchMajor = watch("major", student.major);
+  const foo = watch();
+  console.log("EditStudentForm.foo: ", foo, student); // Show client-side major.
   console.log("EditStudentForm.watchMajor: ", watchMajor, student.major); // Show client-side major.
 
   const onSubmit = async (data: {
@@ -61,16 +93,21 @@ const EditStudentForm = ({
     const result = await upsertStudent(data as ICreateStudentForm);
     if (result) {
       swal("Success!", "Student data saved successfully!", "success");
-      reset();
+      // reset();
     } else {
       swal("Error!", "Failed to save student data!", "error");
     }
-    await reload();
+    // await reload();
+    // router.replace(`/student/${student.email}`);
+    router.refresh();
     reset();
   };
 
   return (
     <Container>
+      <p>{isDirty ? "dirty" : "not dirty"}</p>
+      <p>{JSON.stringify(dirtyFields, null, 2)}</p>
+      <p>{JSON.stringify(touchedFields, null, 2)}</p>
       <Card>
         <Card.Body>
           <Form onSubmit={handleSubmit(onSubmit)}>
@@ -117,7 +154,6 @@ const EditStudentForm = ({
                     Level <Form.Text style={{ color: "red" }}>*</Form.Text>
                   </Form.Label>
                   <Form.Select
-                    defaultValue={student.level}
                     {...register("level")}
                     className={`form-control ${errors.level ? "is-invalid" : ""}`}
                   >
@@ -225,6 +261,11 @@ const EditStudentForm = ({
             <Button variant="primary" type="submit">
               Update
             </Button>
+            <input
+              type="button"
+              onClick={() => reset()}
+              value="Custom Reset Field Values & Errors"
+            />
           </Form>
         </Card.Body>
       </Card>
