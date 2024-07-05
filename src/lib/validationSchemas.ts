@@ -11,7 +11,7 @@ export const gpa2String = (num: number) => gpaValues[num];
 export const gpa2Number = (str: string) => gpaValues.indexOf(str);
 
 export interface ICreateStudentForm {
-  bio: string | undefined;
+  bio: string | undefined | null;
   enrolled?: Date | undefined | null;
   hobbies?: (string | undefined | null)[] | undefined;
   name: string;

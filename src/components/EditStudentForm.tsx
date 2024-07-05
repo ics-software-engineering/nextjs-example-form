@@ -65,7 +65,7 @@ const EditStudentForm = ({
     resolver: yupResolver(EditStudentSchema),
     defaultValues: {
       email: student.email,
-      bio: student.bio,
+      bio: student.bio ? student.bio : "",
       level: student.level,
       gpa: student.gpa,
       major: student.major,
