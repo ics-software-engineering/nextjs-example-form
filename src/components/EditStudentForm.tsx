@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   ICreateStudentForm,
@@ -7,67 +7,32 @@ import {
   levelKeys,
   majorKeys,
   gpaValues,
-} from "@/lib/validationSchemas";
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  Col,
-  Container,
-  Form,
-  Row,
-} from "react-bootstrap";
-import { useForm, Controller, useFormContext, useWatch } from "react-hook-form";
-import { useState } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import Multiselect from "multiselect-react-dropdown";
-import { upsertStudent } from "@/lib/dbActions";
-import swal from "sweetalert";
-import { useRouter } from "next/navigation";
+} from '@/lib/validationSchemas';
+import { Button, ButtonGroup, Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Multiselect from 'multiselect-react-dropdown';
+import { upsertStudent } from '@/lib/dbActions';
+import swal from 'sweetalert';
 
-const EditStudentForm = ({
-  student,
-  reload,
-}: {
-  student: ICreateStudentForm;
-  reload: () => void;
-}) => {
-  console.log("EditStudentForm: ", student.email, student); // Show client-side email.
-  const router = useRouter();
-  const formPadding = "py-1";
-  let enrolled = new Date();
-  if (student.enrolled) {
-    enrolled = new Date();
-  } else if (typeof student.enrolled === "string") {
-    enrolled = new Date(student.enrolled);
-  }
-  let hobbies: string[] = [];
-  if (student.hobbies) {
-    hobbies = student.hobbies as string[];
-  }
+const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
+  console.log('EditStudentForm: ', student.email, student); // Show client-side email.
+  const formPadding = 'py-1';
 
   const {
     register,
     handleSubmit,
     control,
     reset,
-    formState: {
-      errors,
-      isDirty,
-      dirtyFields,
-      isSubmitting,
-      isValid,
-      submitCount,
-      touchedFields,
-    },
+    formState: { errors },
     watch,
   } = useForm({
     resolver: yupResolver(EditStudentSchema),
   });
 
-  const watchMajor = watch("major");
-  const enrolledDateString = student.enrolled?.toISOString().split("T")[0];
-  console.log("EditStudentForm: ", enrolledDateString);
+  const watchMajor = watch('major');
+  const enrolledDateString = student.enrolled?.toISOString().split('T')[0];
+  console.log('EditStudentForm: ', enrolledDateString);
 
   const onSubmit = async (data: {
     email: string;
@@ -81,9 +46,9 @@ const EditStudentForm = ({
   }) => {
     const result = await upsertStudent(data as ICreateStudentForm);
     if (result) {
-      swal("Success!", "Student data saved successfully!", "success");
+      swal('Success!', 'Student data saved successfully!', 'success');
     } else {
-      swal("Error!", "Failed to save student data!", "error");
+      swal('Error!', 'Failed to save student data!', 'error');
       reset();
     }
   };
@@ -93,18 +58,19 @@ const EditStudentForm = ({
       <Card>
         <Card.Body>
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <input type="hidden" value={student.email} {...register("email")} />
+            <input type="hidden" value={student.email} {...register('email')} />
             <Row className={formPadding}>
               <Col>
                 <Form.Group controlId="formName">
                   <Form.Label>
-                    Name <Form.Text style={{ color: "red" }}>*</Form.Text>
+                    Name
+                    <Form.Text style={{ color: 'red' }}>*</Form.Text>
                   </Form.Label>
                   <Form.Control
                     type="text"
                     defaultValue={student.name}
-                    {...register("name")}
-                    className={`form-control ${errors.name ? "is-invalid" : ""}`}
+                    {...register('name')}
+                    className={`form-control ${errors.name ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">{errors.name?.message}</div>
                 </Form.Group>
@@ -112,7 +78,8 @@ const EditStudentForm = ({
               <Col>
                 <Form.Group controlId="formEmail">
                   <Form.Label>
-                    Email <Form.Text style={{ color: "red" }}>*</Form.Text>
+                    Email
+                    <Form.Text style={{ color: 'red' }}>*</Form.Text>
                   </Form.Label>
                   <Form.Control type="email" value={student.email} disabled />
                 </Form.Group>
@@ -121,11 +88,7 @@ const EditStudentForm = ({
             <Row className={formPadding}>
               <Form.Group controlId="formBio">
                 <Form.Label>Biographical Statement</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  defaultValue={student.bio ? student.bio : ""}
-                  {...register("bio")}
-                />
+                <Form.Control as="textarea" defaultValue={student.bio ? student.bio : ''} {...register('bio')} />
                 <Form.Text muted>(optional)</Form.Text>
               </Form.Group>
             </Row>
@@ -133,12 +96,10 @@ const EditStudentForm = ({
               <Col>
                 <Form.Group controlId="formLevel">
                   <Form.Label>
-                    Level <Form.Text style={{ color: "red" }}>*</Form.Text>
+                    Level
+                    <Form.Text style={{ color: 'red' }}>*</Form.Text>
                   </Form.Label>
-                  <Form.Select
-                    {...register("level")}
-                    className={`form-control ${errors.level ? "is-invalid" : ""}`}
-                  >
+                  <Form.Select {...register('level')} className={`form-control ${errors.level ? 'is-invalid' : ''}`}>
                     {levelKeys.map((level) => (
                       <option
                         key={level}
@@ -149,18 +110,17 @@ const EditStudentForm = ({
                       </option>
                     ))}
                   </Form.Select>
-                  <div className="invalid-feedback">
-                    {errors.level?.message}
-                  </div>
+                  <div className="invalid-feedback">{errors.level?.message}</div>
                   <Form.Text muted>What is your level?</Form.Text>
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group controlId="formGPA">
                   <Form.Label>
-                    GPA <Form.Text style={{ color: "red" }}>*</Form.Text>
+                    GPA
+                    <Form.Text style={{ color: 'red' }}>*</Form.Text>
                   </Form.Label>
-                  <Form.Select {...register("gpa")} defaultValue={student.gpa}>
+                  <Form.Select {...register('gpa')} defaultValue={student.gpa}>
                     {gpaValues.map((gpa, index) => (
                       <option
                         key={gpa}
@@ -178,18 +138,16 @@ const EditStudentForm = ({
               <Col>
                 <Form.Group controlId="formEnrolled">
                   <Form.Label>
-                    Date Enrolled{" "}
-                    <Form.Text style={{ color: "red" }}>*</Form.Text>
+                    Date Enrolled
+                    <Form.Text style={{ color: 'red' }}>*</Form.Text>
                   </Form.Label>
                   <Form.Control
                     type="date"
                     defaultValue={enrolledDateString}
-                    {...register("enrolled")}
-                    className={`form-control ${errors.enrolled ? "is-invalid" : ""}`}
+                    {...register('enrolled')}
+                    className={`form-control ${errors.enrolled ? 'is-invalid' : ''}`}
                   />
-                  <div className="invalid-feedback">
-                    {errors.enrolled?.message}
-                  </div>
+                  <div className="invalid-feedback">{errors.enrolled?.message}</div>
                 </Form.Group>
               </Col>
             </Row>
@@ -199,12 +157,12 @@ const EditStudentForm = ({
                 <Controller
                   control={control}
                   name="hobbies"
-                  render={({ field: { value, onChange } }) => (
+                  render={({ field: { onChange } }) => (
                     <Multiselect
                       options={hobbyKeys}
                       isObject={false}
-                      showCheckbox={true}
-                      hidePlaceholder={true}
+                      showCheckbox
+                      hidePlaceholder
                       closeOnSelect={false}
                       onSelect={onChange}
                       onRemove={onChange}
@@ -218,11 +176,11 @@ const EditStudentForm = ({
             <Row className={formPadding}>
               <Form.Group controlId="formMajor">
                 <Form.Label>
-                  Major <Form.Text style={{ color: "red" }}>*</Form.Text>&nbsp;
+                  Major
+                  <Form.Text style={{ color: 'red' }}>*</Form.Text>
+                  &nbsp;
                 </Form.Label>
-                <ButtonGroup
-                  className={`form-control ${errors.major ? "is-invalid" : ""}`}
-                >
+                <ButtonGroup className={`form-control ${errors.major ? 'is-invalid' : ''}`}>
                   {majorKeys.map((major) => (
                     <Form.Check
                       key={major}
@@ -232,7 +190,7 @@ const EditStudentForm = ({
                       id={major}
                       defaultValue={major}
                       checked={watchMajor === major}
-                      {...register("major")}
+                      {...register('major')}
                     />
                   ))}
                 </ButtonGroup>
@@ -243,11 +201,7 @@ const EditStudentForm = ({
             <Button variant="primary" type="submit">
               Update
             </Button>
-            <input
-              type="button"
-              onClick={() => reset()}
-              value="Custom Reset Field Values & Errors"
-            />
+            <input type="button" onClick={() => reset()} value="Custom Reset Field Values & Errors" />
           </Form>
         </Card.Body>
       </Card>

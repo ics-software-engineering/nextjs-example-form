@@ -1,4 +1,4 @@
-import CreateStudentForm from "../components/CreateStudentForm";
+import CreateStudentForm from '../components/CreateStudentForm';
 
 export default function Home() {
   return (

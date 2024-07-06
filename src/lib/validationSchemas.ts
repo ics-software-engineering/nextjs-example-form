@@ -1,12 +1,12 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
-import { Hobby, Level, Major } from "@prisma/client";
+import { Hobby, Level, Major } from '@prisma/client';
 
-export const levelKeys = Object.keys(Level).filter((key) => isNaN(Number(key)));
-export const hobbyKeys = Object.keys(Hobby).filter((key) => isNaN(Number(key)));
-export const majorKeys = Object.keys(Major).filter((key) => isNaN(Number(key)));
+export const levelKeys = Object.keys(Level).filter((key) => Number.isNaN(Number(key)));
+export const hobbyKeys = Object.keys(Hobby).filter((key) => Number.isNaN(Number(key)));
+export const majorKeys = Object.keys(Major).filter((key) => Number.isNaN(Number(key)));
 
-export const gpaValues = ["0.0-0.9", "1.0-1.9", "2.0-2.9", "3.0-3.9", "4.0+"];
+export const gpaValues = ['0.0-0.9', '1.0-1.9', '2.0-2.9', '3.0-3.9', '4.0+'];
 export const gpa2String = (num: number) => gpaValues[num];
 export const gpa2Number = (str: string) => gpaValues.indexOf(str);
 

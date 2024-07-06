@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
 // PrismaClient is attached to the `global` object in development to prevent
 // exhausting your database connection limit.
@@ -8,10 +8,14 @@ import { PrismaClient } from "@prisma/client";
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
+// eslint-disable-next-line operator-linebreak
 export const prisma =
+  // eslint-disable-next-line operator-linebreak
   globalForPrisma.prisma ||
   new PrismaClient({
-    log: ["query"], // CAM: is this the right level of logging?
+    log: ['query'], // CAM: is this the right level of logging?
   });
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+
+export default prisma;

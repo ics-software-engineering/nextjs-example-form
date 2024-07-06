@@ -1,7 +1,7 @@
-import { Col, Container } from "react-bootstrap";
+import { Col, Container } from 'react-bootstrap';
 
 const Footer = () => {
-  const divStyle = { paddingTop: "15px" };
+  const divStyle = { paddingTop: '15px' };
   return (
     <footer className="mt-auto bg-light">
       <Container style={divStyle}>
@@ -12,9 +12,7 @@ const Footer = () => {
           <br />
           Honolulu, HI 96822
           <br />
-          <a href="http://ics-software-engineering.github.io/meteor-example-form-react">
-            Template Home Page
-          </a>
+          <a href="http://ics-software-engineering.github.io/meteor-example-form-react">Template Home Page</a>
         </Col>
       </Container>
     </footer>
