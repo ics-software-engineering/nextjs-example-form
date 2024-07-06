@@ -63,22 +63,11 @@ const EditStudentForm = ({
     watch,
   } = useForm({
     resolver: yupResolver(EditStudentSchema),
-    defaultValues: {
-      email: student.email,
-      bio: student.bio ? student.bio : "",
-      level: student.level,
-      gpa: student.gpa,
-      major: student.major,
-      name: student.name,
-      hobbies: hobbies,
-      enrolled: enrolled,
-    },
   });
 
-  const watchMajor = watch("major", student.major);
-  const foo = watch();
-  console.log("EditStudentForm.foo: ", foo, student); // Show client-side major.
-  console.log("EditStudentForm.watchMajor: ", watchMajor, student.major); // Show client-side major.
+  const watchMajor = watch("major");
+  const enrolledDateString = student.enrolled?.toISOString().split("T")[0];
+  console.log("EditStudentForm: ", enrolledDateString);
 
   const onSubmit = async (data: {
     email: string;
@@ -93,21 +82,14 @@ const EditStudentForm = ({
     const result = await upsertStudent(data as ICreateStudentForm);
     if (result) {
       swal("Success!", "Student data saved successfully!", "success");
-      // reset();
     } else {
       swal("Error!", "Failed to save student data!", "error");
+      reset();
     }
-    // await reload();
-    // router.replace(`/student/${student.email}`);
-    router.refresh();
-    reset();
   };
 
   return (
     <Container>
-      <p>{isDirty ? "dirty" : "not dirty"}</p>
-      <p>{JSON.stringify(dirtyFields, null, 2)}</p>
-      <p>{JSON.stringify(touchedFields, null, 2)}</p>
       <Card>
         <Card.Body>
           <Form onSubmit={handleSubmit(onSubmit)}>
@@ -201,7 +183,7 @@ const EditStudentForm = ({
                   </Form.Label>
                   <Form.Control
                     type="date"
-                    defaultValue={student.enrolled!.toISOString().split("T")[0]}
+                    defaultValue={enrolledDateString}
                     {...register("enrolled")}
                     className={`form-control ${errors.enrolled ? "is-invalid" : ""}`}
                   />
