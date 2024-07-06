@@ -32,7 +32,7 @@ const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
 
   const watchMajor = watch('major');
   const enrolledDateString = student.enrolled?.toISOString().split('T')[0];
-  console.log('EditStudentForm: ', enrolledDateString);
+  // console.log('EditStudentForm: ', enrolledDateString);
 
   const onSubmit = async (data: {
     email: string;
@@ -201,7 +201,6 @@ const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
             <Button variant="primary" type="submit">
               Update
             </Button>
-            <input type="button" onClick={() => reset()} value="Custom Reset Field Values & Errors" />
           </Form>
         </Card.Body>
       </Card>
