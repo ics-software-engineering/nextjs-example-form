@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
+test('Create Student Form', async ({ page }) => {
   await page.goto('https://localhost:3000/');
   await expect(page.getByRole('heading', { name: 'Create Student' })).toBeVisible();
   await page.getByPlaceholder('Your name').click();
