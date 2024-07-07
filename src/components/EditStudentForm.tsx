@@ -30,7 +30,10 @@ const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
     resolver: yupResolver(EditStudentSchema),
   });
 
-  const watchMajor = watch('major');
+  let watchMajor = watch('major');
+  if (!watchMajor) {
+    watchMajor = student.major;
+  }
   const enrolledDateString = student.enrolled?.toISOString().split('T')[0];
   // console.log('EditStudentForm: ', enrolledDateString);
 
@@ -99,7 +102,11 @@ const EditStudentForm = ({ student }: { student: ICreateStudentForm }) => {
                     Level
                     <Form.Text style={{ color: 'red' }}>*</Form.Text>
                   </Form.Label>
-                  <Form.Select {...register('level')} className={`form-control ${errors.level ? 'is-invalid' : ''}`}>
+                  <Form.Select
+                    defaultValue={student.level}
+                    {...register('level')}
+                    className={`form-control ${errors.level ? 'is-invalid' : ''}`}
+                  >
                     {levelKeys.map((level) => (
                       <option
                         key={level}
