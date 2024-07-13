@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/ics-software-engineering/nextjs-example-form/main/doc/create-student-page.png)
+![](https://raw.githubusercontent.com/cammoore/nextjs-example-form/main/doc/create-student-page.png)
 
 nextjs-example-form is a sample Next.js 14 application that illustrates how to use [React Hook Form](https://www.react-hook-form.com/) for form development.
 
@@ -32,12 +32,15 @@ Environment variables loaded from .env
 Prisma schema loaded from prisma/schema.prisma
 Datasource "db": PostgreSQL database "<your database name>", schema "public" at "localhost:5432"
 
-Applying migration `20240708195109_init`
+Applying migration `20240702013420_init`
+Applying migration `20240702172401_unique_email`
 
 The following migration(s) have been applied:
 
 migrations/
-  └─ 20240708195109_init/
+  └─ 20240702013420_init/
+    └─ migration.sql
+  └─ 20240702172401_unique_email/
     └─ migration.sql
 
 Your database is now in sync with your schema.
@@ -49,23 +52,21 @@ $
 
 ## Running the system
 
-Once the libraries are installed, you can run the application by invoking the "start" script in the [package.json file](https://github.com/ics-software-engineering/nextjs-example-form/blob/main/app/package.json):
+Once the libraries are installed and the database is migrated, you can run the application by invoking the "dev" script in the [package.json file](https://github.com/cammoore/nextjs-example-form/blob/main/app/package.json):
 
 ```shell
-% meteor npm run start
+$ npm run dev
 
-> nextjs-example-form@ start /Users/carletonmoore/GitHub/ICS314/nextjs-example-form/app
-> meteor --no-release-check --exclude-archs web.browser.legacy,web.cordova --settings ../config/settings.development.json
+> nextjs-example-form@0.1.0 dev
+> next dev
 
-[[[[[ ~/GitHub/ICS314/nextjs-example-form/app ]]]]]
+  ▲ Next.js 14.2.4
+  - Local:        http://localhost:3000
+  - Environments: .env
 
-=> Started proxy.
-=> Started HMR server.
-=> Started MongoDB.
-I20220629-09:06:46.335(-10)? Monti APM: completed instrumenting the app
-=> Started your app.
+ ✓ Starting...
+ ✓ Ready in 2.6s
 
-=> App running at: http://localhost:3000/
 ```
 
 ### Viewing the running app
@@ -77,24 +78,30 @@ If all goes well, the application will appear at [http://localhost:3000](http://
 You can verify that the code obeys our coding standards by running ESLint over the code in the imports/ directory with:
 
 ```
-meteor npm run lint
+$ npm run lint
+
+> nextjs-example-form3@0.1.0 lint
+> next lint
+
+✔ No ESLint warnings or errors
 ```
+If you see a Typescript warning you can ignore it.
 
 ### Prerequisites
 
 To best understand this application, it is useful to familiarize yourself with:
 
-- [Meteor Application Template React](http://ics-software-engineering.github.io/meteor-application-template-react/). This sample application illustrates conventions for directory layout, naming conventions, routing, integration of Semantic UI, and coding standards. Meteor-example-form is based on this template, so we won't discuss any of these issues here.
+- [Next.js Application Template](http://cammoore.github.io/nextjs-application-template/). This sample application illustrates conventions for directory layout, naming conventions, routing, integration of Bootstrap, and coding standards. nextjs-example-form is based on this template, so we won't discuss any of these issues here.
 
 - [Bootstrap 5 React](https://react-bootstrap.github.io/). We use Bootstrap 5 for this template.
 
-- [Uniforms](https://uniforms.tools/). Uniforms is a library for simplifying form management with React, and includes built-in integration with Bootstrap 5.
+- [React Hook Form](https://www.react-hook-form.com/). React hook form is a performant, flexible and extensible forms with easy-to-use validation.
 
 ## Walkthrough
 
 The landing page for this application provides the Create Student form:
 
-![](https://github.com/ics-software-engineering/nextjs-example-form/raw/master/doc/create-student-page.png)
+![](https://github.com/cammoore/nextjs-example-form/raw/main/doc/create-student-page.png)
 
 This form has the following input controls:
 
@@ -108,15 +115,15 @@ This form has the following input controls:
 
 A filled out but not yet submitted Create Student form looks like this:
 
-![](https://github.com/ics-software-engineering/nextjs-example-form/raw/main/doc/create-student-page-filled-in.png)
+![](https://github.com/cammoore/nextjs-example-form/raw/main/doc/create-student-page-filled-in.png)
 
 After submission, the page pops up an alert showing the submission was successful:
 
-![](https://github.com/ics-software-engineering/nextjs-example-form/raw/main/doc/create-student-page-submitted.png)
+![](https://github.com/cammoore/nextjs-example-form/raw/main/doc/create-student-page-submitted.png)
 
 Also note that after dismissing the alert, there is a link of the Create Student page to a page where you can edit the document. Here is this page:
 
-![](https://github.com/ics-software-engineering/nextjs-example-form/raw/main/doc/edit-student-page.png)
+![](https://github.com/cammoore/nextjs-example-form/raw/main/doc/edit-student-page.png)
 
 You can edit the fields, then click 'Update' to save the changes.
 
