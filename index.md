@@ -1,10 +1,11 @@
 ![](https://raw.githubusercontent.com/cammoore/nextjs-example-form/main/doc/create-student-page.png)
 
-nextjs-example-form is a sample Next.js 14 application that illustrates how to use [React Hook Form](https://www.react-hook-form.com/) for form development.
+nextjs-example-form is a sample Next.js 14 application that illustrates how to use [React Hook Form](https://www.react-hook-form.com/) and [Yup](https://www.npmjs.com/package/yup) for form development and validation.
 
 Some features of this example:
 
 - In order to focus on form processing, the application has just two pages: Create Student and Edit Student.
+- [Yup](https://www.npmjs.com/package/yup) for form validation.
 - A variety of common controllers are shown: text box, text area, single selection, multiple selection, date selection, and radio boxes.
 - [Prisma ORM](https://www.prisma.io/) for type safe mapping between Typescript and PostgreSQL tables.
 - The forms in this example update two PostgreSQL tables, illustrating the situation where there is not a one-to-one correspondence between the Prisma schema and the form schema.
@@ -85,6 +86,7 @@ $ npm run lint
 
 ✔ No ESLint warnings or errors
 ```
+
 If you see a Typescript warning you can ignore it.
 
 ### Prerequisites
