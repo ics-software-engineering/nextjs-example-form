@@ -13,7 +13,15 @@ Some features of this example:
 
 ## Installation
 
-First, [install PostgreSQL](https://www.postgresql.org/download/).
+First, [install PostgreSQL](https://www.postgresql.org/download/). Then create a database for your application.
+
+```
+
+$ createdb nextjs-example-form
+Password:
+$
+
+```
 
 Second, download this repository to your computer. You can download it as a zip file, or you can click the "Use as template" button to create your own copy of the system, then clone it to your local computer.
 
@@ -25,7 +33,7 @@ Fourth, cd into the directory of your local copy of the repo, and install third 
 $ npm install
 ```
 
-Fifth, create a `.env` file from the `sample.env`. Set the `DATABASE_URL` variable to match your PostgreSQL database. Then run the Prisma migration `npx prisma migrate dev` to set up the PostgreSQL tables.
+Fifth, create a `.env` file from the `sample.env`. Set the `DATABASE_URL` variable to match your PostgreSQL database you created in the first step. See the Prisma docs [Connect your database](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-postgresql). Then run the Prisma migration `npx prisma migrate dev` to set up the PostgreSQL tables.
 
 ```
 $ npx prisma migrate dev
