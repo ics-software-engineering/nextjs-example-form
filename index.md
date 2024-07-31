@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/cammoore/nextjs-example-form/main/doc/create-student-page.png)
+![](https://raw.githubusercontent.com/ics-software-engineering/nextjs-example-form/main/doc/create-student-page.png)
 
 nextjs-example-form is a sample Next.js 14 application that illustrates how to use [React Hook Form](https://www.react-hook-form.com/) and [Yup](https://www.npmjs.com/package/yup) for form development and validation.
 
@@ -61,7 +61,7 @@ $
 
 ## Running the system
 
-Once the libraries are installed and the database is migrated, you can run the application by invoking the "dev" script in the [package.json file](https://github.com/cammoore/nextjs-example-form/blob/main/app/package.json):
+Once the libraries are installed and the database is migrated, you can run the application by invoking the "dev" script in the [package.json file](https://github.com/ics-software-engineering/nextjs-example-form/blob/main/app/package.json):
 
 ```shell
 $ npm run dev
@@ -101,7 +101,7 @@ If you see a Typescript warning you can ignore it.
 
 To best understand this application, it is useful to familiarize yourself with:
 
-- [Next.js Application Template](http://cammoore.github.io/nextjs-application-template/). This sample application illustrates conventions for directory layout, naming conventions, routing, integration of Bootstrap, and coding standards. nextjs-example-form is based on this template, so we won't discuss any of these issues here.
+- [Next.js Application Template](http://ics-software-engineering.github.io/nextjs-application-template/). This sample application illustrates conventions for directory layout, naming conventions, routing, integration of Bootstrap, and coding standards. nextjs-example-form is based on this template, so we won't discuss any of these issues here.
 
 - [Bootstrap 5 React](https://react-bootstrap.github.io/). We use Bootstrap 5 for this template.
 
@@ -111,7 +111,7 @@ To best understand this application, it is useful to familiarize yourself with:
 
 The landing page for this application provides the Create Student form:
 
-![](https://github.com/cammoore/nextjs-example-form/raw/main/doc/create-student-page.png)
+![](https://github.com/ics-software-engineering/nextjs-example-form/raw/main/doc/create-student-page.png)
 
 This form has the following input controls:
 
@@ -125,15 +125,15 @@ This form has the following input controls:
 
 A filled out but not yet submitted Create Student form looks like this:
 
-![](https://github.com/cammoore/nextjs-example-form/raw/main/doc/create-student-page-filled-in.png)
+![](https://github.com/ics-software-engineering/nextjs-example-form/raw/main/doc/create-student-page-filled-in.png)
 
 After submission, the page pops up an alert showing the submission was successful:
 
-![](https://github.com/cammoore/nextjs-example-form/raw/main/doc/create-student-page-submitted.png)
+![](https://github.com/ics-software-engineering/nextjs-example-form/raw/main/doc/create-student-page-submitted.png)
 
 Also note that after dismissing the alert, there is a link of the Create Student page to a page where you can edit the document. Here is this page:
 
-![](https://github.com/cammoore/nextjs-example-form/raw/main/doc/edit-student-page.png)
+![](https://github.com/ics-software-engineering/nextjs-example-form/raw/main/doc/edit-student-page.png)
 
 You can edit the fields, then click 'Update' to save the changes.
 
