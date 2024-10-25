@@ -137,6 +137,8 @@ Also note that after dismissing the alert, there is a link of the Create Student
 
 You can edit the fields, then click 'Update' to save the changes.
 
+<!--
 ## Screencast
 
 Watch a 35 minute screencast explaining this system at [https://www.youtube.com/watch?v=ZCHf_rNbDaM](https://www.youtube.com/watch?v=ZCHf_rNbDaM).
+-->
